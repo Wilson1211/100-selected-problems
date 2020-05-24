@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "L_SIEVE.c"
+//#include "L_SIEVE.c"
 
 int fib_it(const int n){
     int i;
@@ -12,4 +12,11 @@ int fib_it(const int n){
     
     return ans;
 
+}
+
+void main(){
+    int ans;
+    ans = fib_it(10);
+    printf("%d", ans);
+    return ;
 }
