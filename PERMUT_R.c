@@ -20,16 +20,21 @@ void print(int a[]){
 
 
 int main() {
-    int i, j;
+    int i, j, count, k;
     int a[4];
     for(i = 0; i < N; i++) a[i] = i+1;
     for(i =N-1;i >= 0; i--) {
-        for(j = 0;j < N;j++) {
-            permute(a,N-1);
+        count = i;
+        while(count--) {
             print(a);
+            for(j = 0;j < N;j++) {
+                permute(a,N-1);
+                print(a);
+            }
+            k = N-1;
+            while(a[k] == k+1) permute(a, --k);
+            //if(a[N-1] == N) permute(a, i-1);
         }
-        if(a[N-1] == N) permute(a, i-1);
-        print(a);
     }
 
 
