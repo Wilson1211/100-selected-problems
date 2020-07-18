@@ -30,7 +30,7 @@ void fix_heap(int x[], int root, int key, int bound){
         x[root << i] = tmp;
         tmp = x[root <<(i-1)];
     }
-    
+
 }
 
 
