@@ -10,7 +10,6 @@
 #define swap(a,b) {int t;t = a;a = b;b = t;}
 //#define initnode(x) Node x = {.data=0, .next = NULL}
 
-Node *head;
 int mask = 0x0FU;
 
 typedef struct node Node;
@@ -26,33 +25,93 @@ struct cell{
     Node *last;
 }basket[BUCKET_NO];
 
-struct Node* listgen(int[], int);
+Node *head;
+
+Node* listgen(int[], int);
 void distribute(void);
 void recollect(void);
 void putback(int []);
 
-
-struck Node* listgen(int x[], int n){
+Node* listgen(int x[], int n){
     Node *first, *last, *tmp;
     int i;
     
     first = last = (Node*) malloc(sizeof(Node));
-    for(i=0;i<n;i++){
+    first->data = x[0];
+    first->x = x[0];
+    first->next = NULL;
+    
+    for(i=1;i<n;i++){
         tmp = (Node*) malloc(sizeof(Node));
-        tmp.data = input[i];
-        tmp.next = NULL;
-        last.next = tmp;
+        (*tmp).data = x[i];
+        tmp->x = x[i];
+        (*tmp).next = NULL;
+        (*last).next = tmp;
         last = tmp;
     }
     return first;
 }
 
+// this function distributes data items stored in the  list to 
+// baskets according to their last LENGTH bits
+void distribute(void) {
+    int index, j, k;
+    Node *first, *last;
+    Node *tmp, *ttmp;
+    tmp = head;
+    while(tmp != NULL){
+        index = (*tmp).x & mask;
+        tmp->x >>= LENGTH;
+        if(basket[index].first == NULL){
+            (basket[index].first)->next = tmp;
+            (basket[index]).last = tmp;
+        }else{
+            (basket[index]).last->next = tmp;
+            (basket[index]).last = tmp;
+        }
+        ttmp = tmp->next;
+        tmp->next = NULL;
+        tmp = ttmp;
+    }
+}
+
+void recollect(void){
+    Node* tmp;
+    int index = 0;
+    while(index < BUCKET_NO){
+        while(basket[index].first == NULL && index < BUCKET_NO) index++;
+        if(index >= BUCKET_NO) break;
+
+        tmp = basket[index].last;
+        while(basket[++index].first == NULL);
+        tmp->next = basket[index].first;
+    }
+}
+
+void putback(int input[]) {
+    Node *tmp;
+    int i;
+    for(i=0;head != NULL;i++){
+        input[i] = head->data;
+        tmp = head->next;
+        free(head);
+        head = tmp;
+    }
+}
 
 void sort(int input[], int n){
-
-
-
-
+    int i, j;
+    
+    head = listgen(input, n);
+    
+    for(i=0;i<LOOP_COUNT;i++){
+        for(j=0;j<BUCKET_NO;j++){
+            basket[j].first = basket[j].last = NULL;
+        }
+        distribute();
+        recollect();
+    }
+    putback(input);
 }
 
 
