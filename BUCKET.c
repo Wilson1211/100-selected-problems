@@ -32,7 +32,9 @@ void distribute(void);
 void recollect(void);
 void putback(int []);
 
-Node* listgen(int x[], int n){
+
+// this function generate all nodes and link them together
+Node* listgen(int x[], int n){ 
     Node *first, *last, *tmp;
     int i;
     
@@ -63,8 +65,8 @@ void distribute(void) {
         index = (*tmp).x & mask;
         tmp->x >>= LENGTH;
         if(basket[index].first == NULL){
-            (basket[index].first)->next = tmp;
-            (basket[index]).last = tmp;
+            basket[index].first = tmp;
+            basket[index].last = tmp;
         }else{
             (basket[index]).last->next = tmp;
             (basket[index]).last = tmp;
@@ -78,12 +80,13 @@ void distribute(void) {
 void recollect(void){
     Node* tmp;
     int index = 0;
+    while(basket[index].first == NULL && index < BUCKET_NO) index++;
+    tmp = basket[index].first;
+    head = tmp;
     while(index < BUCKET_NO){
-        while(basket[index].first == NULL && index < BUCKET_NO) index++;
-        if(index >= BUCKET_NO) break;
-
         tmp = basket[index].last;
-        while(basket[++index].first == NULL);
+        while(basket[++index].first == NULL && index < BUCKET_NO);
+        if(index >= BUCKET_NO) break;
         tmp->next = basket[index].first;
     }
 }
@@ -115,6 +118,11 @@ void sort(int input[], int n){
 }
 
 
+void p_gen_input(int input[], int n){
+    int i;
+    for(i=0;i<n;i++)  printf("%6d", input[i]);
+}
+
 void main(void)
 {
      int  input[MAXSIZE+1];
@@ -132,8 +140,9 @@ void main(void)
      for (i = 0; i < n; i++) {
           if (i % 10 == 0)  printf("\n");
           input[i] = rand()%4000;
-          printf("%6d", input[i]);
+          //printf("%6d", input[i]);
      }
+     p_gen_input(input, n);
 
      sort(input, n);
      printf("\n\nSorted Data :");

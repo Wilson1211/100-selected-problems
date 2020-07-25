@@ -1,3 +1,6 @@
+/*************************
+In this problem, different number only appears once
+****************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
