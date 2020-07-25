@@ -8,8 +8,30 @@
 #define swap(a,b) {int t;t = a;a = b;b = t;}
 
 int dup;
+
+
+void sort(int input[], int n){
+    int i, index;
+    i=1;
+    while(i<n){
+        if(x[i-1] == x[i]) {
+            dup = x[i];
+            break;
+        }
+    }
+
+    
+
+
+
+}
+
+
+/*   deal with situations when element not equal to dup happens more than one time
 void sort(int input[], int n){
     int i=0, index=0;
+
+    
     while(count < ln(n)){
         if(input[i-1] == input[i]) count++;
         else count = 0;
@@ -31,12 +53,9 @@ void sort(int input[], int n){
     count = n-1;
     for(i=index;i>=0;i--){
         if(input[i] != dup) swap(input[i], input[count--]);
-    }    
-
-
-
+    }
 }
-
+*/
 
 void main(void)
 {
