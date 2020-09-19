@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+/*
 bool RH_SEQ(unsigned char text[]){
 
     char substr[] = "0";
@@ -33,3 +33,48 @@ bool RH_SEQ(unsigned char text[]){
     }
 
 }
+*/
+
+#define YES     1
+#define NO      0
+int h_seq(char []);
+int cursor;
+
+// the control routine
+int h_sequence(char x[]){
+    int length = strlen(x);
+    cursor = 0;
+
+    if(h_seq(x) == YES){
+        if(cursor == length - 1){
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
+
+// the working routine by using recursive decent
+int h_seq(char x[]){
+
+    int length = strlen(x);
+    if(cursor >= length) return NO;
+
+    switch(x[cursor]){
+        case 0: return YES;
+        case 1:
+            cursor++;
+            if(h_seq(x) == YES){
+                cursor++;
+                if(h_seq(x) == YES){
+                    return YES;
+                }
+            }
+            return NO;
+        default:
+            break;        
+    }
+    return NO;
+}
+
