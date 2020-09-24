@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include <limits.h>
 
-#define N 10
-#define MIN(a, b) ((a>b)?b:a)
 
 int main() {
 
@@ -25,15 +23,29 @@ int main() {
     for(int i=0;i<N;i++) {
         arr[i] = (int*)malloc(sizeof(int)*N);
         f[i] = (int*)malloc(sizeof(int)*N);
-        memset(arr[i], 0, N);
+        memset(arr[i], INT_MAX, N);
         memset(f[i], 0, N);
     }
-
-    for(int j=0;j<N;j++) {
-        for(int i=0)
-        arr[i][i+1] = ;
+    for(i=0;i<N;i++) {
+        arr[i][i] = 0;
     }
 
+    for(int j=1;j<N;j++) {
+        for(int i=j-1;i>=0;i--) {
+            for(int k=i;k<j;k++) {
+                if(arr[i][k]+arr[k+1][j]+input[2*i]*input[2*k+1]*input[2*j+1] < arr[i][j]) {
+                    arr[i][j] = arr[i][k]+arr[k+1][j]+input[2*i]*input[2*k+1]*input[2*j+1];
+                    f[i][j] = k;
+                }
+            }
+        }
+    }
 
+    for(int i=0;i<N;i++) {
+        free(arr[i]);
+        free(f[i]);
+    }
+    free(arr);
+    free(f);
 
 }
